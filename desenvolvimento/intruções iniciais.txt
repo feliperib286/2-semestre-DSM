@@ -1,0 +1,3 @@
+npm create vite@latest front -- --template react-ts 
+
+colocar no cmd

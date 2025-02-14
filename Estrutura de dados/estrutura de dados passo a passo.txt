@@ -1,0 +1,19 @@
+npm install -g typescript tsc ts-node
+
+npm install 
+
+roda o arquivo ts
+
+ts-node  algoritmo_usando_lp.ts
+
+
+
+
+ para executar no terminal do vs code
+para converter em js e conseguir fazer no terminal  precisa  fazer
+
+npm install -g typescript tsc ts-node
+
+npx tsc aula130225.ts para converter para js.
+
+depois vc lança node .\aula130225.js

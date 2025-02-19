@@ -34,3 +34,16 @@ idade INTEGER,
 cpf VARCHAR(11) UNIQUE,
 PRIMARY KEY (cpf)
 );
+
+
+Se precisarmos alterar a estrutura de uma tabela:
+ALTER TABLE cliente ADD COLUMN telefone VARCHAR(15); -- Adiciona uma nova coluna
+ALTER TABLE cliente RENAME COLUMN telefone TO contato; -- Renomeia a coluna
+ALTER TABLE cliente DROP COLUMN contato; -- Remove a coluna
+ALTER TABLE cliente RENAME TO tbl_cliente; -- Renomeia a tabela
+❑ ALTER TABLE permite modificar a estrutura sem recriar a tabela.
+
+Principais comandos DDL:
+❑ CREATE → Criar banco de dados, tabelas e esquemas
+❑ ALTER → Modificar tabelas existentes
+❑ DROP → Excluir bancos de dados ou tabelas

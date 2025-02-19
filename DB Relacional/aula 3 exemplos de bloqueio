@@ -19,3 +19,18 @@ nome VARCHAR(100) NOT NULL,
 idade INT,
 id_curso INT REFERENCES cursos(id_curso)
 );
+
+
+CREATE TABLE emprestimo (
+numero_emprestimo SERIAL PRIMARY KEY,
+nome_agencia VARCHAR(50) REFERENCES agencia(nome_agencia),
+valor DECIMAL(10,2) CHECK (valor > 0)
+);
+CREATE TABLE cliente (
+nome_cliente VARCHAR(100),
+cidade_cliente VARCHAR(50),
+endereco_cliente TEXT,
+idade INTEGER,
+cpf VARCHAR(11) UNIQUE,
+PRIMARY KEY (cpf)
+);

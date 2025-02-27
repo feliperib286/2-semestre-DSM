@@ -1,0 +1,20 @@
+import { useState } from "react";
+
+export function App() {
+  let [nome,setNome] = useState("Ana");
+  let [lista,setLista] = useState<string[]>([]);
+
+  function handleSave(){
+    setLista([...lista,nome]);
+  }
+  return <div>
+    {}
+    <input value={nome} onChange={(e)=>setNome(e.target.value)} /> 
+    <button onClick={handleSave}>Salvar</button>
+    {
+      lista.map((iten,indice)=>
+         <div key={indice}>{iten}</div>
+      )
+    }
+  </div>;
+}

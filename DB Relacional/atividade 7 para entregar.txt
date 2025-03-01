@@ -1,0 +1,201 @@
+-- Remove as tabelas se elas já existirem
+DROP TABLE IF EXISTS alunos;
+DROP TABLE IF EXISTS cursos;
+
+-- Criação da tabela 'cursos'
+CREATE TABLE cursos (
+    id SERIAL PRIMARY KEY,  -- Coluna id como SERIAL (auto-incremento)
+    nome VARCHAR(100) NOT NULL
+);
+
+-- Criação da tabela 'alunos'
+CREATE TABLE alunos (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    curso_id INT,
+    FOREIGN KEY (curso_id) REFERENCES cursos(id)
+);
+
+-- Inserir dados na tabela 'cursos'
+INSERT INTO cursos (nome) VALUES
+('Matemática'),
+('História'),
+('Ciências');
+
+-- Inserir dados na tabela 'alunos'
+INSERT INTO alunos (nome, curso_id) VALUES
+('João Silva', 1),       -- João está matriculado em Matemática (id 1)
+('Maria Oliveira', 2),   -- Maria está matriculada em História (id 2)
+('Pedro Santos', NULL),  -- Pedro não está matriculado em nenhum curso
+('Ana Costa', 1),        -- Ana está matriculada em Matemática (id 1)
+('Carlos Mendes', NULL); -- Carlos não está matriculado em nenhum curso
+
+-- Consulta 1: Listar todos os alunos e seus cursos (INNER JOIN)
+SELECT alunos.nome AS Aluno, cursos.nome AS Curso
+FROM alunos
+INNER JOIN cursos ON alunos.curso_id = cursos.id;
+
+-- Consulta 2: Listar todos os alunos, incluindo os sem curso (LEFT JOIN)
+SELECT alunos.nome AS Aluno, cursos.nome AS Curso
+FROM alunos
+LEFT JOIN cursos ON alunos.curso_id = cursos.id;
+
+-- Consulta 3: Listar todos os cursos e os alunos matriculados (mesmo que não haja alunos)
+SELECT cursos.nome AS Curso, alunos.nome AS Aluno
+FROM cursos
+LEFT JOIN alunos ON cursos.id = alunos.curso_id;
+
+-- Consulta 4: Listar alunos que não estão matriculados em nenhum curso
+SELECT alunos.nome AS Aluno
+FROM alunos
+WHERE curso_id IS NULL;
+
+-- Consulta 5: Listar cursos que não têm alunos matriculados
+SELECT cursos.nome AS Curso
+FROM cursos
+LEFT JOIN alunos ON cursos.id = alunos.curso_id
+WHERE alunos.id IS NULL;
+
+-- Atualização: Adicionar um novo curso e matricular um aluno
+INSERT INTO cursos (nome) VALUES ('Física');  -- Adiciona o curso de Física
+INSERT INTO alunos (nome, curso_id) VALUES ('Luiza Fernandes', 4);  -- Matricula Luiza em Física (id 4)
+
+-- Consulta 6: Verificar os dados atualizados
+SELECT alunos.nome AS Aluno, cursos.nome AS Curso
+FROM alunos
+LEFT JOIN cursos ON alunos.curso_id = cursos.id;
+
+-- Exclusão: Remover um aluno e verificar o resultado
+DELETE FROM alunos WHERE nome = 'Pedro Santos';  -- Remove Pedro Santos
+
+-- Consulta 7: Verificar os dados após a exclusão
+SELECT alunos.nome AS Aluno, cursos.nome AS Curso
+FROM alunos
+LEFT JOIN cursos ON alunos.curso_id = cursos.id;
+
+-----------------------------------------------------------------
+
+
+
+-- 1️⃣ Remove as tabelas se elas já existirem
+DROP TABLE IF EXISTS transacoes;
+DROP TABLE IF EXISTS contas;
+DROP TABLE IF EXISTS clientes;
+
+-- 2️⃣ Criação da tabela 'clientes'
+CREATE TABLE clientes (
+    id_cliente SERIAL PRIMARY KEY,  -- ID único do cliente (chave primária)
+    nome VARCHAR(100) NOT NULL,     -- Nome do cliente (obrigatório)
+    cpf VARCHAR(11) UNIQUE NOT NULL, -- CPF do cliente (único e obrigatório)
+    endereco TEXT,                  -- Endereço do cliente (opcional)
+    telefone VARCHAR(15)            -- Telefone do cliente (opcional)
+);
+
+-- 3️⃣ Inserção de dados na tabela 'clientes'
+INSERT INTO clientes (nome, cpf, endereco, telefone) VALUES
+('João Silva', '12345678900', 'Rua A, 123', '11999990000'),      -- Cliente 1
+('Maria Oliveira', '98765432100', 'Rua B, 456', '11988887777');  -- Cliente 2
+
+-- 4️⃣ Criação da tabela 'contas'
+CREATE TABLE contas (
+    id_conta SERIAL PRIMARY KEY,    -- ID único da conta (chave primária)
+    numero_conta VARCHAR(10) UNIQUE NOT NULL, -- Número da conta (único e obrigatório)
+    saldo DECIMAL(10,2) DEFAULT 0, -- Saldo da conta (padrão é 0)
+    id_cliente INT REFERENCES clientes(id_cliente) ON DELETE CASCADE -- Relacionamento com a tabela clientes
+);
+
+-- 5️⃣ Inserção de dados na tabela 'contas'
+INSERT INTO contas (numero_conta, saldo, id_cliente) VALUES
+('000123', 1500.00, 1),  -- Conta 1: João Silva
+('000456', 2300.00, 2);  -- Conta 2: Maria Oliveira
+
+-- 6️⃣ Criação da tabela 'transacoes'
+CREATE TABLE transacoes (
+    id_transacao SERIAL PRIMARY KEY, -- ID único da transação (chave primária)
+    id_conta INT REFERENCES contas(id_conta) ON DELETE CASCADE, -- Relacionamento com a tabela contas
+    tipo VARCHAR(15) CHECK (tipo IN ('Depósito', 'Saque', 'Transferência')), -- Tipo de transação
+    valor DECIMAL(10,2) NOT NULL CHECK (valor > 0), -- Valor da transação (deve ser positivo)
+    data_transacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Data e hora da transação (padrão é o momento da inserção)
+    destino_transferencia INT REFERENCES contas(id_conta) -- Conta de destino para transferências
+);
+
+-- 7️⃣ Inserção de dados na tabela 'transacoes'
+INSERT INTO transacoes (id_conta, tipo, valor, destino_transferencia) VALUES
+(1, 'Depósito', 500.00, NULL),      -- Depósito na conta 1
+(2, 'Saque', 200.00, NULL),         -- Saque na conta 2
+(1, 'Transferência', 300.00, 2);    -- Transferência da conta 1 para a conta 2
+
+-- 8️⃣ Consultas básicas no sistema bancário
+
+-- Listar todos os clientes cadastrados
+SELECT * FROM clientes;
+
+-- Listar todas as contas e seus respectivos clientes
+SELECT contas.numero_conta, clientes.nome, contas.saldo
+FROM contas
+INNER JOIN clientes ON contas.id_cliente = clientes.id_cliente;
+
+-- Listar todas as transações registradas
+SELECT transacoes.tipo, transacoes.valor, transacoes.data_transacao,
+       c1.numero_conta AS origem,
+       c2.numero_conta AS destino
+FROM transacoes
+INNER JOIN contas c1 ON transacoes.id_conta = c1.id_conta
+LEFT JOIN contas c2 ON transacoes.destino_transferencia = c2.id_conta;
+
+-- 9️⃣ Atualizações e remoções
+
+-- Atualizar o saldo de uma conta (exemplo de um depósito)
+UPDATE contas
+SET saldo = saldo + 500.00
+WHERE id_conta = 1;
+
+-- Excluir um cliente e suas contas (ON DELETE CASCADE remove automaticamente as contas e transações associadas)
+-- Exclui as transações que referenciam a conta como destino_transferencia
+DELETE FROM transacoes WHERE destino_transferencia = 2;
+
+-- Exclui as transações que referenciam a conta como id_conta
+DELETE FROM transacoes WHERE id_conta = 2;
+
+-- Agora você pode excluir a conta
+DELETE FROM contas WHERE id_conta = 2;
+
+-- Recria a tabela transacoes com ON DELETE CASCADE
+DROP TABLE IF EXISTS transacoes;
+
+CREATE TABLE transacoes (
+    id_transacao SERIAL PRIMARY KEY,
+    id_conta INT REFERENCES contas(id_conta) ON DELETE CASCADE,
+    tipo VARCHAR(15) CHECK (tipo IN ('Depósito', 'Saque', 'Transferência')),
+    valor DECIMAL(10,2) NOT NULL CHECK (valor > 0),
+    data_transacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    destino_transferencia INT REFERENCES contas(id_conta) ON DELETE CASCADE
+);
+
+-- 🔟 Atividade prática
+
+-- 1️⃣ Insira um novo cliente no sistema
+INSERT INTO clientes (nome, cpf, endereco, telefone) VALUES
+('Carlos Souza', '99988877766', 'Rua C, 789', '11977776666');
+
+-- 2️⃣ Crie uma conta para esse novo cliente
+INSERT INTO contas (numero_conta, saldo, id_cliente) VALUES
+('000789', 1000.00, 3);  -- Conta 3: Carlos Souza
+
+-- 3️⃣ Realize uma transferência de R$ 100,00 da conta 000123 para a conta 000789
+INSERT INTO transacoes (id_conta, tipo, valor, destino_transferencia) VALUES
+(1, 'Transferência', 100.00, 3);  -- Transferência da conta 1 para a conta 3
+
+-- Atualizar os saldos das contas após a transferência
+UPDATE contas
+SET saldo = saldo - 100.00
+WHERE id_conta = 1;  -- Deduz R$ 100,00 da conta de origem
+
+UPDATE contas
+SET saldo = saldo + 100.00
+WHERE id_conta = 3;  -- Adiciona R$ 100,00 à conta de destino
+
+-- 4️⃣ Liste todas as contas do banco, mostrando os saldos atualizados
+SELECT contas.numero_conta, clientes.nome, contas.saldo
+FROM contas
+INNER JOIN clientes ON contas.id_cliente = clientes.id_cliente;

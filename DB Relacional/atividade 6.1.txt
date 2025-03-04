@@ -1,27 +1,70 @@
-CREATE TABLE cursos (id_curso SERIAL PRIMARY KEY, nome VARCHAR(100) NOT NULL);
-CREATE TABLE alunos (id_aluno SERIAL PRIMARY KEY, nome VARCHAR(100) NOT NULL, idade
-INT, id_curso INT REFERENCES cursos(id_curso));
-CREATE TABLE notas (id_nota int PRIMARY KEY, disciplina VARCHAR(100) NOT NULL, nota float,
-id_aluno INT REFERENCES alunos(id_aluno));
--------
+-- 1️⃣ Apagar tabelas na ordem correta para evitar erros de referência
+DROP TABLE IF EXISTS notas, alunos, cursos;
 
-INSERT INTO cursos (nome) VALUES ('Engenharia');
-INSERT INTO cursos (nome) VALUES ('Analise de Sistema'), ('Computação'), ('Matemática');
-INSERT INTO alunos (nome, idade, id_curso) VALUES ('João Silva', 22, 1);
-INSERT INTO alunos (nome, idade, id_curso) VALUES ('Marina Lima', 16, 3), ('Maria Souza', 20, 3),
-('Carlos Lima', 25, 4), ('Lucas Pereira', 18, 3);
-INSERT INTO notas (id_nota, id_aluno, disciplina, nota) VALUES (101, 1, 'Matemática', 8.5),(102, 2,
-'História', 9.0);
---------------------
+-- 2️⃣ Criar as tabelas corretamente
+CREATE TABLE cursos (
+    id_curso SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL
+);
 
+CREATE TABLE alunos (
+    id_aluno SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    idade INT,
+    id_curso INT REFERENCES cursos(id_curso) ON DELETE SET NULL
+);
+
+CREATE TABLE notas (
+    id_nota SERIAL PRIMARY KEY,
+    disciplina VARCHAR(100) NOT NULL,
+    nota FLOAT,
+    id_aluno INT REFERENCES alunos(id_aluno) ON DELETE CASCADE
+);
+
+-- 3️⃣ Inserir dados corretamente
+INSERT INTO cursos (nome) VALUES
+    ('Engenharia'),
+    ('Analise de Sistema'),
+    ('Computação'),
+    ('Matemática');
+
+INSERT INTO alunos (nome, idade, id_curso) VALUES
+    ('João Silva', 22, 1),
+    ('Marina Lima', 16, 3),
+    ('Maria Souza', 20, 3),
+    ('Carlos Lima', 25, 4),
+    ('Lucas Pereira', 18, 3),
+    ('Fernando Alves', 30, NULL); -- Um aluno sem curso
+
+INSERT INTO notas (id_aluno, disciplina, nota) VALUES
+    (1, 'Matemática', 8.5),
+    (2, 'História', 9.0);
+
+-- 4️⃣ Atualizações
 UPDATE alunos SET idade = 16 WHERE nome = 'João Silva';
 UPDATE alunos SET idade = 17, id_curso = 1 WHERE nome = 'Marina Lima';
-Select * from cursos;
-Select * from alunos;
-select * from notas
 
--------------
+-- 5️⃣ Consultas
+-- Listar todos os cursos
+SELECT * FROM cursos;
 
+-- Listar todos os alunos
+SELECT * FROM alunos;
+
+-- Listar todas as notas
+SELECT * FROM notas;
+
+-- Listar alunos com suas notas (INNER JOIN)
 SELECT alunos.nome, notas.disciplina, notas.nota
 FROM alunos
 INNER JOIN notas ON alunos.id_aluno = notas.id_aluno;
+
+-- Listar alunos com seus cursos (INNER JOIN)
+SELECT alunos.nome, cursos.nome AS curso
+FROM alunos
+INNER JOIN cursos ON alunos.id_curso = cursos.id_curso;
+
+-- Listar TODOS os alunos, incluindo os que não têm curso (LEFT JOIN)
+SELECT alunos.nome, COALESCE(cursos.nome, 'Sem Curso') AS curso
+FROM alunos
+LEFT JOIN cursos ON alunos.id_curso = cursos.id_curso;

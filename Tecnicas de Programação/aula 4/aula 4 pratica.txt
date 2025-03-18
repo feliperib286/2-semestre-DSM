@@ -1,0 +1,56 @@
+index.ts:
+
+import Carro from "./Carro";
+
+const carro = new Carro(1, "Ford", "Ka 1.0 Flex", 5, "manual");
+
+/*carro.id = 1;
+carro.marca = "Ford";
+carro.modelo = "Ka 1.0 Flex";
+carro.ano = 2020;
+*/
+
+console.log(carro);
+
+_________________________
+
+Veiculo.ts
+
+class Veiculo {
+    id: number;
+    marca: string;
+    modelo: string;
+    ano: number = new Date().getFullYear();;
+
+    constructor(id:number, marca: string, modelo: string, ano?: number){
+        this.id = id;
+        this.marca = marca;
+        this.modelo = modelo;
+        if(ano!=undefined){
+            this.ano = ano; 
+        }
+    }
+}
+
+export default Veiculo;
+
+_________________________
+
+
+Carro.ts
+
+
+import Veiculo from "./Veiculo";
+
+class Carro extends Veiculo {
+    portas: number;
+    cambio: string;
+
+    constructor(id:number, marca: string, modelo: string, portas: number, cambio: string, ano?: number){
+        super(id, marca, modelo, ano);
+        this.portas = portas;
+        this.cambio = cambio;
+    }
+}
+
+export default Carro;

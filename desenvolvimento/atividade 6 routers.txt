@@ -1,0 +1,299 @@
+-------------------atividade1-----------------
+import { BrowserRouter, Link, Route, Routes } from "react-router";
+export default function App() {
+return (
+<BrowserRouter>
+<Menu />
+<Rotas />
+</BrowserRouter>
+);
+}
+function Rotas() {
+return (
+<Routes>
+<Route path="*" element={<Erro />} />
+<Route path="/Legume" element={<Legume />} />
+<Route path="/Fruta" element={<Fruta />} />
+<Route path="/Verdura" element={<Verdura />} />
+</Routes>
+);
+}
+function Menu() {
+return (
+<div>
+<Link to="/Legume">Legume</Link>
+<br></br>
+<Link to="/Fruta">Fruta</Link>
+<br></br>
+<Link to="/Verdura">Verdura</Link>
+</div>
+);
+}
+function Legume() {
+  return (
+  <div style={{ backgroundColor: "PeachPuff" }}>
+  <div>Beterraba</div>
+  <div>Cenoura</div>
+  <div>Pepino</div>
+  </div>
+  );
+  }
+  function Verdura() {
+  return (
+  <div style={{ backgroundColor: "palegreen" }}>
+  <div>Alface</div>
+  <div>Couve</div>
+  <div>Agrião</div>
+  </div>
+  );
+  }
+  function Fruta() {
+  return (
+  <div style={{ backgroundColor: "LemonChiffon" }}>
+  <div>Laranja</div>
+  <div>Manga</div>
+  <div>Maça</div>
+  </div>
+  );
+  }
+  function Erro() {
+  return <h3>Rota inexistente</h3>;
+  }
+  ------------------------------------------------------
+
+
+atividade 2
+import { createContext, useContext, useState } from "react";
+import { BrowserRouter, Link, Route, Routes } from "react-router";
+export default function App() {
+return (
+  <LoginProvider>
+<BrowserRouter>
+<Menu />
+<Rotas />
+</BrowserRouter>
+</LoginProvider>
+);
+}function Rotas() {
+  const { logado } = useLogado();
+  return logado ? <Rotaslogado /> : <Rotasdeslogado />;
+  }
+  
+function Rotaslogado() {
+return (
+<Routes>
+<Route path="*" element={<Erro />} />
+<Route path="/Legume" element={<Legume />} />
+<Route path="/Fruta" element={<Fruta />} />
+<Route path="/Verdura" element={<Verdura />} />
+</Routes>
+);
+}
+function Rotasdeslogado() {
+  return (
+  <Routes>
+  <Route path="*" element={<Erro />} />
+  <Route path="/Carro" element={<Carro />} />
+  <Route path="/Moto" element={<Moto />} />
+  
+  </Routes>
+  );
+}   
+function Menu() {
+  const { logado, setLogado } = useLogado();
+  return (
+  <div>
+  <button onClick={() => setLogado(!logado)}>
+  {logado ? "Logout" : "Login"}
+  </button><br />
+  
+<Link to="/Legume">Legume</Link>
+<br></br>
+<Link to="/Fruta">Fruta</Link>
+<br></br>
+<Link to="/Verdura">Verdura</Link><br />
+<Link to="/Carro">Carro</Link><br />
+<Link to="/Moto">Moto</Link><br />
+
+
+</div>
+);
+}
+function Legume() {
+  return (
+  <div style={{ backgroundColor: "PeachPuff" }}>
+  <div>Beterraba</div>
+  <div>Cenoura</div>
+  <div>Pepino</div>
+  </div>
+  );
+  }
+  function Verdura() {
+  return (
+  <div style={{ backgroundColor: "palegreen" }}>
+  <div>Alface</div>
+  <div>Couve</div>
+  <div>Agrião</div>
+  </div>
+  );
+  }
+  function Fruta() {
+  return (
+  <div style={{ backgroundColor: "LemonChiffon" }}>
+  <div>Laranja</div>
+  <div>Manga</div>
+  <div>Maça</div>
+  </div>
+  );
+  }
+  function Carro() {
+    return (
+    <div style={{ backgroundColor: "LightSkyBlue" }}>
+    <div>Gol</div>
+    <div>Uno</div>
+    </div>
+    );
+    }
+    function Moto() {
+    return (
+    <div style={{ backgroundColor: "Wheat" }}>
+    <div>CG160</div>
+    <div>DT180</div>
+    </div>
+    );
+    }
+         
+    
+  function Erro() {
+  return <h3>Rota inexistente</h3>;
+  }
+  interface ContextProps {
+    logado: boolean;
+    setLogado: (value: boolean) => void;
+    }
+    interface ChildrenProps {
+    children: React.ReactNode;
+    }
+    const LoginContext = createContext<ContextProps | null>(null);
+function LoginProvider({ children }: ChildrenProps) {
+const [logado, setLogado] = useState(false);
+return (
+
+    
+  <LoginContext.Provider value={{ logado, setLogado }}>
+{children}
+</LoginContext.Provider>
+);
+}
+function useLogado() {
+const context = useContext(LoginContext);
+if (!context) {
+throw new Error("useLogado deve ser usado dentro de um LoginProvider");
+}
+return context;
+}
+
+-----------------------------------------------------------------------------------
+
+atividade 3
+import { createContext, useContext, useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from "react-router-dom";
+
+// Componente principal com rotas
+export default function App() {
+  return (
+    <PersonProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Navigate to="/form" replace />} />
+          <Route path="/form" element={<Form />} />
+          <Route path="/list" element={<List />} />
+          <Route path="*" element={<Erro />} />
+        </Routes>
+      </Router>
+    </PersonProvider>
+  );
+}
+function Form() {
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+  const { add } = usePerson();
+  return (
+    <div>
+      <div>
+        <label htmlFor="name">Nome</label>
+        <input id="name" value={name} onChange={(e) => setName(e.target.value)} />
+      </div>
+      <div>
+        <label htmlFor="age">Idade</label>
+        <input id="age" value={age} onChange={(e) => setAge(e.target.value)} />
+      </div>
+      <div>
+        <button
+          onClick={() => {
+            if (name.trim() && age.trim()) {
+              add({ name, age });
+              setName("");
+              setAge("");
+            } else {
+              alert("Preencha todos os campos!");
+            }
+          }}
+        >
+          Salvar
+        </button>
+        <Link to="/list">Ir para Lista</Link>
+
+      </div>
+    </div>
+  );
+}
+function List() {
+  const { list } = usePerson();
+  return (
+    <div>
+      <p>Cadastro:</p>
+      <ol>
+        {
+          list.map((item, index) => <li key={index}>{item.name} - {item.age}</li>)
+        }
+      </ol>
+      <br />
+      <Link to="/form">Voltar para Formulário</Link>
+
+    </div>
+  );
+}
+function Erro() {
+  return <h3>Rota inexistente</h3>
+}
+interface Person {
+  name: string;
+  age: string;
+}
+interface ContextProps {
+  list: Person[];
+  add: (person: Person) => void;
+}
+interface ChildrenProps {
+  children: React.ReactNode;
+}
+const PersonContext = createContext<ContextProps | null>(null);
+function PersonProvider({ children }: ChildrenProps) {
+  const [list, setList] = useState<Person[]>([]);
+  function add(person: Person) {
+    setList((prev) => [...prev, person]);
+  }
+  return (
+    <PersonContext.Provider value={{ list, add }}>
+      {children}
+    </PersonContext.Provider>
+  );
+}
+function usePerson() {
+  const context = useContext(PersonContext);
+  if (!context) {
+    throw new Error("usePerson deve ser usado dentro de um PersonProvider");
+  }
+  return context;
+}

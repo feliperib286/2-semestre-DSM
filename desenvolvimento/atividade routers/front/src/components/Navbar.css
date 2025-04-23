@@ -1,22 +1,37 @@
 .navbar {
-    background-color: #004aad;
-    padding: 10px 20px;
-    display: flex;
-    gap: 20px;
-    position: fixed;
-    padding-top: 0%;
-    top: 0;
-    width: 100%;
-    color: rgb(243, 235, 235);
-    font-weight: bold;
-    z-index: 1000;
-  }
-  
-  .navbar a {
-    color: rgb(245, 241, 241);
-    text-decoration: none;
-  }
-  
-  .navbar a:hover {
-    text-decoration: underline;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2c2c2c; /* Cor escura */
+  color: white;
+  padding: 10px 30px;
+}
+
+.navbar-left h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.navbar-left span {
+  display: block;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.navbar-left p {
+  margin: 0;
+  font-size: 12px;
+  color: #ccc;
+}
+
+.navbar-right a {
+  margin-left: 20px;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.navbar-right a:hover {
+  text-decoration: underline;
+}

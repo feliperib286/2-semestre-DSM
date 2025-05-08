@@ -1,3 +1,5 @@
+//P.2.12. Desenvolva um programa recursivo que calcule o menor elemento presente em um array. O programa desenvolvido deverá sempre dividir o array ao meio e compor a solução considerando a obtenção da solução de cada uma das metades.//
+
 function menor_r(a: number[]): number {
     // Caso base: se o array tem apenas um elemento, retornamos esse elemento, pois é o menor
     if (a.length == 1) {

@@ -1,0 +1,18 @@
+npm install -g typescript
+npm install -g ts-node
+ts-node teste.ts
+
+
+          [7, 3, 5, 1]  -> divide ao meio
+           /         \
+      [7, 3]         [5, 1]
+       /  \           /   \
+    [7]  [3]       [5]   [1]
+
+
+/*Esse método é uma estratégia de "dividir e conquistar": quebra
+ o problema em pedaços pequenos, resolve cada um, e depois junta as soluções comparando os resultados.
+
+ Esse exercício aplica recursão com divisão ao meio para buscar o menor valor em um array. A função divide o problema em subarrays cada vez menores, até que reste
+  apenas um elemento. Em seguida, compara os menores valores de cada metade e retorna o menor entre eles. Essa abordagem evita o uso de laços for,
+  usando apenas chamadas recursivas para percorrer o array.

@@ -1,0 +1,17 @@
+{
+  "name": "nova-pasta",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node JurosCompostos.js",           
+    "build": "tsc",                               
+    "dev": "tsc --watch"                            
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}

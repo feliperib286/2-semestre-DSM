@@ -1,0 +1,16 @@
+Crie o projeto e inicialize com npm init.
+
+Instale o TypeScript com npm install typescript --save-dev.
+
+Crie o arquivo .ts e escreva o código nele.
+
+Compile o arquivo com npx tsc.
+
+Execute o código com node.
+
+npm init -y
+npm install typescript --save-dev
+
+npm install typescript --save-dev
+npx tsc --init
+npx tsc

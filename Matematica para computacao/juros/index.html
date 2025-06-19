@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora de Juros Compostos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, button {
+      margin-top: 5px;
+      padding: 8px;
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #28a745;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    #resultado {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Calculadora de Juros Compostos</h1>
+
+    <label for="capital">Capital Inicial (R$):</label>
+    <input type="number" id="capital" placeholder="Ex: 1000">
+
+    <label for="taxa">Taxa de Juros (% ao mês):</label>
+    <input type="number" id="taxa" placeholder="Ex: 5">
+
+    <label for="tempo">Tempo (meses):</label>
+    <input type="number" id="tempo" placeholder="Ex: 12">
+
+    <button onclick="calcularJuros()">Calcular</button>
+
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    function calcularMontante(capital, taxa, tempo) {
+      const taxaDecimal = taxa / 100;
+      return capital * Math.pow(1 + taxaDecimal, tempo);
+    }
+
+    function calcularJuros() {
+      const capital = parseFloat(document.getElementById('capital').value);
+      const taxa = parseFloat(document.getElementById('taxa').value);
+      const tempo = parseInt(document.getElementById('tempo').value);
+
+      if (isNaN(capital) || isNaN(taxa) || isNaN(tempo)) {
+        document.getElementById('resultado').innerText = "Preencha todos os campos corretamente.";
+        return;
+      }
+
+      const montante = calcularMontante(capital, taxa, tempo);
+      document.getElementById('resultado').innerText = `Montante final: R$ ${montante.toFixed(2)}`;
+    }
+  </script>
+</body>
+</html>

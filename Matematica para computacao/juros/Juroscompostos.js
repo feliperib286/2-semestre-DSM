@@ -4,9 +4,11 @@ function calcularMontante(capital, taxaJuros, tempoMeses) {
     // Fórmula dos juros compostos: M = C * (1 + i)^t
     return capital * Math.pow(1 + taxaJuros, tempoMeses);
 }
-// Função principal para testar a função de juros compostos
-const capitalInicial = 1000.0; // Exemplo de capital inicial
-const taxaJurosMensal = 0.01; // Taxa de juros de 1% ao mês
-const tempoMeses = 70; // Tempo em meses para dobrar o valor
+// Entradas
+const capitalInicial = 1000; // Exemplo de capital inicial (R$ 1000)
+const taxaJurosMensal = 0.005; // 10% ao mês (convertido para decimal)
+const tempoMeses = 12; // 10 meses
+// Cálculo do montante final
 const montanteFinal = calcularMontante(capitalInicial, taxaJurosMensal, tempoMeses);
-console.log(`O montante após ${tempoMeses} meses é: ${montanteFinal}`);
+// Exibição do resultado
+console.log(`O montante após ${tempoMeses} meses é: R$ ${montanteFinal.toFixed(2)}`);

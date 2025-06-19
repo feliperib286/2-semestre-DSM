@@ -3,15 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node JurosCompostos.js",           
-    "build": "tsc",                               
-    "dev": "tsc --watch"                            
+    "start": "node JurosCompostos.js",
+    "build": "tsc",
+    "dev": "npx JurosCompostos.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "devDependencies": {
     "typescript": "^5.8.3"
-  }
+  },
+  "description": ""
 }

@@ -1,0 +1,25 @@
+{
+  "name": "aula5",
+  "version": "1.0.0",
+  "description": "Exercícios da Aula 5 - Interface, Classe Abstrata e Genérica",
+  "main": "index.js",
+  "scripts": {
+    "ex1": "npx ts-node ./src/exercicio1.ts",
+    "ex2": "npx ts-node ./src/exercicio2.ts",
+    "ex3": "npx ts-node ./src/exercicio3.ts",
+    "ex4": "npx ts-node ./src/exercicio4.ts",
+    "ex5": "npx ts-node ./src/exercicio5.ts",
+    "ex6": "npx ts-node ./src/exercicio6.ts",
+    "ex7": "npx ts-node ./src/exercicio7.ts",
+    "ex8": "npx ts-node ./src/exercicio8.ts",
+    "ex9": "npx ts-node ./src/exercicio9.ts",
+    "ex10": "npx ts-node ./src/exercicio10.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
+  }
+}

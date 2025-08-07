@@ -1,8 +1,14 @@
 apos criar a pasta instalar no VS CODE
 
+no poweshell
+
+set-executionpolicy remotesigned
+
 npm init -y
- npm i -D ts-node typescript   
-npx tsc --init
+ npm i -D ts-node typescript  
+ npm i -g ts-node typescript  
+
+ npx tsc --init
 criar uma pasta src
 criar um file .ts dentro da pasta 
 
